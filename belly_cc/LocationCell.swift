@@ -12,6 +12,8 @@ class LocationCell: UITableViewCell {
 
     @IBOutlet weak var locationImage: UIView!
     @IBOutlet weak var locationName: UIView!
+    @IBOutlet weak var locationDistance: UILabel!
+    @IBOutlet weak var locationCategory: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
