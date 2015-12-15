@@ -8,15 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet var locationTableView: UIView!
+    
+    @IBOutlet weak var locationTableView: UITableView!
     var arrayOfLocations = [Location]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setUpLocations()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +32,18 @@ class ViewController: UIViewController {
         
         arrayOfLocations.append(location1)
         arrayOfLocations.append(location2)
+    }
+    
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return arrayOfLocations.count
+    }
+    
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as LocationCell
+        
+        return cell
     }
 
 }
