@@ -48,14 +48,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setUpLocations(){
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
+        var counter = 0
     
+        sleep(8)
         Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
-            
-            print(response.request)
-            print(response.response)
+            switch response.result {
+            case .Success:
+                if let value = response.result.value {
+                    let json = JSON(value)
+                    print(json)
+                    let response = json["reponse"]
+                    print("+==============")
+                    print(json["response"]["venues"][1]["location"]["lat"].stringValue)
+                    print(json["response"]["venues"][1]["location"]["lng"].stringValue)
+                    print(json["response"]["venues"][1]["name"].stringValue)
+
+                    
+                }
+            case .Failure:
+                print("failure")
+                
+            }
 
         }
-
+        
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
