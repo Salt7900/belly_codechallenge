@@ -28,9 +28,11 @@ class LocationCell: UITableViewCell {
     }
     
     func setCell(nameOfLocation: String, imageOfLocation: String, categoryOfLocation: String){
-        let url = NSURL(string: imageOfLocation)
-        let data = NSData(contentsOfURL: url!)
-        self.locationPicture.image = UIImage(data: data!)
+        if let url = NSURL(string: imageOfLocation) {
+            if let data = NSData(contentsOfURL: url) {
+                locationPicture.image = UIImage(data: data)
+            }        
+        }
         
         self.locationName.text = nameOfLocation
         self.locationCategory.text = categoryOfLocation
