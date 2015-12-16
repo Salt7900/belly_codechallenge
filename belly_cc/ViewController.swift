@@ -51,6 +51,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let location = arrayOfLocations[indexPath.row]
+        
+        var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
+        
+        self.presentViewController(detailedViewController, animated: true, completion: nil)
+    }
 
 }
 
