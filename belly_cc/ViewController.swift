@@ -37,11 +37,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    func currentDate() -> String{
+        let date = NSDate();
+        var formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        return formatter.stringFromDate(date);
+    }
+    
 
     func setUpLocations(){
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
+    
+        Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
+            
+            print(response.request)
+            print(response.response)
 
+        }
 
     }
     
