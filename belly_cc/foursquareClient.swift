@@ -1,5 +1,5 @@
 //
-//  YelpClient.swift
+//  foursquareClient.swift
 //  belly_cc
 //
 //  Created by Ben Fallon on 12/16/15.
@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+class FSClient {
+    
+}
