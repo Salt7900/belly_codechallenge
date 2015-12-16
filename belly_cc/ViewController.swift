@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+    
+    var locationManager = CLLocationManager()
 
     
     @IBOutlet weak var locationTableView: UITableView!
@@ -16,7 +19,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        
         setUpLocations()
         
     }
@@ -27,13 +32,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
     func setUpLocations(){
-        let location1 = Location(name: "Bill's Steakhouse", lat: 41.810446, long: -87.892233, category: "Food/Dining", imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Starbucks_Coffee_Logo.svg/1024px-Starbucks_Coffee_Logo.svg.png")
-        let location2 = Location(name: "Starbucks", lat: 41.808430, long: -87.902253, category: "Coffee", imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Starbucks_Coffee_Logo.svg/1024px-Starbucks_Coffee_Logo.svg.png")
-        let location3 = Location(name: "Other Place", lat: 41.808430, long: -87.902253, category: "Coffee", imageUrl: "http://referentiel.nouvelobs.com/file/6598131.jpg")
         
-        arrayOfLocations.append(location1)
-        arrayOfLocations.append(location2)
-        arrayOfLocations.append(location3)
+
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
