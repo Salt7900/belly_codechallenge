@@ -9,8 +9,13 @@
 import UIKit
 import CoreLocation
 import MapKit
+import SwiftyJSON
+import Alamofire
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+    
+    let clientID = FSClientDetails().clientID()
+    let clientSecret = FSClientDetails().clientSecret()
     
     var locationManager = CLLocationManager()
 
@@ -20,9 +25,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        locationManager.delegate = self
-        
+    
         setUpLocations()
         
     }
@@ -31,9 +36,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
     func setUpLocations(){
-        
+        let userLat = locationManager.location?.coordinate.latitude
+        let userLong = locationManager.location?.coordinate.longitude
+
 
     }
     
@@ -60,6 +68,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.presentViewController(detailedViewController, animated: true, completion: nil)
     }
+
 
 }
 
