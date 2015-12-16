@@ -53,10 +53,10 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="locationCategory" destination="8we-6P-y7C" id="qTh-34-s5e"/>
-                                            <outlet property="locationDistance" destination="T6v-yr-SbX" id="Iso-27-PsY"/>
-                                            <outlet property="locationImage" destination="JyQ-4R-oVp" id="ODw-ch-OXi"/>
-                                            <outlet property="locationName" destination="JyQ-4R-oVp" id="gb9-80-s0Z"/>
+                                            <outlet property="locationCategory" destination="8we-6P-y7C" id="AST-1C-GRE"/>
+                                            <outlet property="locationDistance" destination="T6v-yr-SbX" id="MoR-aY-Ki3"/>
+                                            <outlet property="locationName" destination="rHZ-Co-jIl" id="S4G-7c-0ie"/>
+                                            <outlet property="locationPicture" destination="id6-Xx-dH9" id="hcV-Hm-mm6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

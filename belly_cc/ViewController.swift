@@ -41,7 +41,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as LocationCell
+        let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
+        
+        let locationToDipslay = arrayOfLocations[indexPath.row]
+        
         
         return cell
     }

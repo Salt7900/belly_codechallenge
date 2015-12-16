@@ -10,8 +10,9 @@ import UIKit
 
 class LocationCell: UITableViewCell {
 
-    @IBOutlet weak var locationImage: UIView!
-    @IBOutlet weak var locationName: UIView!
+
+    @IBOutlet weak var locationPicture: UIImageView!
+    @IBOutlet weak var locationName: UILabel!
     @IBOutlet weak var locationDistance: UILabel!
     @IBOutlet weak var locationCategory: UILabel!
     
@@ -24,6 +25,15 @@ class LocationCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func setCell(nameOfLocation: String, imageOfLocation: String, categoryOfLocation: String){
+        let url = NSURL(string: imageOfLocation)
+        let data = NSData(contentsOfURL: url!)
+        self.locationPicture.image = UIImage(data: data!)
+        
+        self.locationName.text = nameOfLocation
+        self.locationCategory.text = categoryOfLocation
     }
 
 }
