@@ -56,12 +56,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             case .Success:
                 if let value = response.result.value {
                     let json = JSON(value)
-                    print(json)
-                    let response = json["reponse"]
-                    print("+==============")
-                    print(json["response"]["venues"][1]["location"]["lat"].stringValue)
-                    print(json["response"]["venues"][1]["location"]["lng"].stringValue)
-                    print(json["response"]["venues"][1]["name"].stringValue)
+                    let locationsArray = json["response"]["venues"].arrayValue
+                    for var i = 0; i < locationsArray.count;{
+                        let locationName = locationsArray[i]["name"].stringValue
+                        let locationLat = locationsArray[i]["location"]["lat"].stringValue
+                        let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                        let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
+                        let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
+                        let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
+                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrl: "\(locationImageUrlPrefix)\(locationImageUrlSuffix)")
+                        self.arrayOfLocations.append(newLocation)
+                        i++
+                    }
 
                     
                 }
@@ -69,9 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 print("failure")
                 
             }
-
         }
-        
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -85,7 +89,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let locationToDipslay = arrayOfLocations[indexPath.row]
         cell.setCell(locationToDipslay.name, imageOfLocation: locationToDipslay.imageUrl, categoryOfLocation: locationToDipslay.category)
-        
         
         return cell
     }
