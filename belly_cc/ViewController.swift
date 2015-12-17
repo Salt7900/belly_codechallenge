@@ -30,8 +30,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.locationManager.requestAlwaysAuthorization()
 
         setUpLocations()
-
     }
+
 
     func currentDate() -> String{
         let date = NSDate();
@@ -39,7 +39,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         formatter.dateFormat = "yyyyMMdd"
         return formatter.stringFromDate(date);
     }
-
 
     func setUpLocations(){
         let userLat = locationManager.location?.coordinate.latitude
