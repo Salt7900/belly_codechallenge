@@ -27,14 +27,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-
-        print("Hello from viewDidLoad")
+        
+        setUpCache()
         setUpLocations()
 
     }
-
-    override func viewDidAppear(animated: Bool) {
-        locationTableView.reloadData()
+    
+    func setUpCache(){
+        let memoryCapacity = 500 * 1024 * 1024
+        let diskCapacity = 500 * 1024 * 1024
+        let cache = NSURLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "shared_cache")
     }
 
 
