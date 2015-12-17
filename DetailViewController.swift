@@ -27,8 +27,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationName.text = nameOfLocation
-        locationDistance.text = String(distanceToLocation)
-        locationType.text = String(typeOfLocation)
+        locationDistance.text = String(distanceToLocation!)
+        locationType.text = typeOfLocation!
         
         setupMap()
     
@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
     
     func setupMap(){
         var location = CLLocationCoordinate2D(latitude: locationLat!, longitude: locationLong!)
-        var span = MKCoordinateSpanMake(0.5, 0.5)
+        var span = MKCoordinateSpanMake(0.25, 0.25)
         var region = MKCoordinateRegion(center: location, span: span)
         
         mapView.setRegion(region, animated: true)
