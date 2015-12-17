@@ -31,6 +31,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         setUpLocations()
         
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        locationTableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -46,6 +50,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 
     func setUpLocations(){
+//        let myLocation = Location(name: "Place", lat: 22, long: 43, category: "Food", imageUrl: "http://nuclearpixel.com/content/icons/2010-02-09_stellar_icons_from_space_from_2005/earth_128.png")
+//        arrayOfLocations.append(myLocation)
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
         var counter = 0
@@ -76,25 +82,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
             }
         }
+        print(self.arrayOfLocations)
+        [locationTableView.reloadData()]
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return arrayOfLocations.count
+        return self.arrayOfLocations.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
-        
-        let locationToDipslay = arrayOfLocations[indexPath.row]
+
+        let locationToDipslay = self.arrayOfLocations[indexPath.row]
         cell.setCell(locationToDipslay.name, imageOfLocation: locationToDipslay.imageUrl, categoryOfLocation: locationToDipslay.category)
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let location = arrayOfLocations[indexPath.row]
+        let location = self.arrayOfLocations[indexPath.row]
         
         var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
         
