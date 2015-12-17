@@ -13,115 +13,116 @@ import SwiftyJSON
 import Alamofire
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
-    
+
     let clientID = FSClientDetails().clientID()
     let clientSecret = FSClientDetails().clientSecret()
-    
+
     var locationManager = CLLocationManager()
 
-    
+
     @IBOutlet weak var locationTableView: UITableView!
-    var arrayOfLocations = [Location]()
-    
+    var arrayOfLocations : [Location] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-    
+
         print("Hello from viewDidLoad")
         setUpLocations()
-        
+
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         locationTableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     func currentDate() -> String{
         let date = NSDate();
         var formatter = NSDateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         return formatter.stringFromDate(date);
     }
-    
+
 
     func setUpLocations(){
 //        let myLocation = Location(name: "Place", lat: 22, long: 43, category: "Food", imageUrl: "http://nuclearpixel.com/content/icons/2010-02-09_stellar_icons_from_space_from_2005/earth_128.png")
 //        arrayOfLocations.append(myLocation)
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
-    
-        print(userLong)
-        print(userLat)
-        Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
-            switch response.result {
-            case .Success:
-                if let value = response.result.value {
-                    let json = JSON(value)
-                    let locationsArray = json["response"]["venues"].arrayValue
-                    for var i = 0; i < locationsArray.count;{
-                        let locationName = locationsArray[i]["name"].stringValue
-                        let locationLat = locationsArray[i]["location"]["lat"].stringValue
-                        let locationLong = locationsArray[i]["location"]["lng"].stringValue
-                        let locationDistance = locationsArray[i]["location"]["distance"].stringValue
-                        let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
-                        let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
-                        let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
-                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
-                        self.addLocationToList(newLocation)
-                        i++
-                    }
 
-                    
-                }
-            case .Failure:
-                print("failure")
-                
-            }
+        if userLat != nil{
+          Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
+              switch response.result {
+              case .Success:
+                  if let value = response.result.value {
+                      let json = JSON(value)
+                      let locationsArray = json["response"]["venues"].arrayValue
+                      for var i = 0; i < locationsArray.count;{
+                          let locationName = locationsArray[i]["name"].stringValue
+                          let locationLat = locationsArray[i]["location"]["lat"].stringValue
+                          let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                          let locationDistance = locationsArray[i]["location"]["distance"].stringValue
+                          let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
+                          let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
+                          let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
+                          let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
+                          self.addLocationToList(newLocation)
+                          i++
+                      }
+
+
+                  }
+              case .Failure:
+                  print("failure")
+
+              }
+          }
+          print(arrayOfLocations)
+          [locationTableView.reloadData()]
+        }else{
+            sleep(4)
+            print("Hello from else")
+            setUpLocations()
         }
-        print(arrayOfLocations)
-        [locationTableView.reloadData()]
     }
-    
+
     func addLocationToList(locationToAdd: Location){
         arrayOfLocations.append(locationToAdd)
+        arrayOfLocations.sortInPlace {(loc1:Location, loc2:Location) -> Bool in
+            loc1.distanceTo < loc2.distanceTo}
         [locationTableView.reloadData()]
     }
-    
+
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return arrayOfLocations.count
     }
-    
+
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
 
         let locationToDipslay = arrayOfLocations[indexPath.row]
-        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceTo)
-        
+        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceInMiles())
+
         return cell
     }
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let location = self.arrayOfLocations[indexPath.row]
-        
+
         var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
-        
+
         detailedViewController.nameOfLocation = location.name
-        detailedViewController.distanceToLocation = location.distanceTo
+        detailedViewController.distanceToLocation = location.distanceInMiles()
         detailedViewController.typeOfLocation = location.category
         detailedViewController.locationLong = location.long
         detailedViewController.locationLat = location.lat
-        
+
         self.presentViewController(detailedViewController, animated: true, completion: nil)
     }
 
 
 }
-
