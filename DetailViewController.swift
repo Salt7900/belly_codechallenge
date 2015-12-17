@@ -51,9 +51,7 @@ class DetailViewController: UIViewController {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
-        annotation.title = nameOfLocation
-        annotation.subtitle = "\(String(typeOfLocation)) m away"
-        
+       
         mapView.addAnnotation(annotation)
 
     }
