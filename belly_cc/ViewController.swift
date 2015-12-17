@@ -62,7 +62,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             switch response.result {
             case .Success:
                 if let value = response.result.value {
-                    print(value)
                     let json = JSON(value)
                     let locationsArray = json["response"]["venues"].arrayValue
                     for var i = 0; i < locationsArray.count;{
@@ -91,7 +90,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func addLocationToList(locationToAdd: Location){
         arrayOfLocations.append(locationToAdd)
-        print(arrayOfLocations)
         [locationTableView.reloadData()]
     }
     
