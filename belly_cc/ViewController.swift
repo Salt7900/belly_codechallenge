@@ -87,7 +87,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           [locationTableView.reloadData()]
         }else{
             sleep(4)
-            print("hello from else")
+            print("Hello from else")
             setUpLocations()
         }
     }
@@ -107,7 +107,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
 
         let locationToDipslay = arrayOfLocations[indexPath.row]
-        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceTo)
+        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceInMiles())
 
         return cell
     }
@@ -118,7 +118,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
 
         detailedViewController.nameOfLocation = location.name
-        detailedViewController.distanceToLocation = location.distanceTo
+        detailedViewController.distanceToLocation = location.distanceInMiles()
         detailedViewController.typeOfLocation = location.category
         detailedViewController.locationLong = location.long
         detailedViewController.locationLat = location.lat

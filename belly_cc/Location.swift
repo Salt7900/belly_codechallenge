@@ -30,5 +30,10 @@ class Location {
         self.imageUrlSuffix = imageUrlSuffix;
         self.distanceTo = distanceTo;
     }
+    
+    func distanceInMiles() -> Double{
+        let miles = Double(self.distanceTo)*0.00062137
+        return Double(round(1000*miles)/1000)
+    }
 
 }
