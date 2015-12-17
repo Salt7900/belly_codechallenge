@@ -27,13 +27,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         self.locationManager.delegate = self
-        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.requestAlwaysAuthorization()
 
         setUpLocations()
 
     }
-
-
 
     func currentDate() -> String{
         let date = NSDate();
@@ -46,7 +44,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setUpLocations(){
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
-        var json = JSON("")
 
         if connectedToNetwork(){
             if userLat != nil{
@@ -54,7 +51,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     switch response.result {
                     case .Success:
                         if let value = response.result.value {
-                            json = JSON(value)
+                            let json = JSON(value)
                             let jsonAsString = String(json)
                             self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
                             let locationsArray = json["response"]["venues"].arrayValue
@@ -85,10 +82,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         }else{
           let jsonToParse = userDefaults.objectForKey("cachedJson")!
-          json = JSON(jsonToParse)
+          let json = JSON(jsonToParse)
+            let jsonAsString = String(json)
+            self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
+            let locationsArray = json["response"]["venues"].arrayValue
+            for var i = 0; i < locationsArray.count;{
+                let locationName = locationsArray[i]["name"].stringValue
+                let locationLat = locationsArray[i]["location"]["lat"].stringValue
+                let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                let locationDistance = locationsArray[i]["location"]["distance"].stringValue
+                let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
+                let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
+                let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
+                let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
+                self.addLocationToList(newLocation)
+                i++
+            }
+
+
         }
-
-
     }
 
     func addLocationToList(locationToAdd: Location){
