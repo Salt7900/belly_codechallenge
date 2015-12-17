@@ -17,11 +17,19 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var locationDistance: UILabel!
     @IBOutlet weak var locationType: UILabel!
     
+    var nameOfLocation: String?
+    var distanceToLocation: Int?
+    var typeOfLocation: String?
+    var locationLat: Double?
+    var locationLong: Double?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
+        locationName.text = nameOfLocation
+        locationDistance.text = String(distanceToLocation)
+        locationType.text = String(typeOfLocation)
+    
         // Do any additional setup after loading the view.
     }
 

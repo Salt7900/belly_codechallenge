@@ -115,6 +115,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
         
+        detailedViewController.nameOfLocation = location.name
+        detailedViewController.distanceToLocation = location.distanceTo
+        detailedViewController.typeOfLocation = location.category
+        detailedViewController.locationLong = location.long
+        detailedViewController.locationLat = location.lat
+        
         self.presentViewController(detailedViewController, animated: true, completion: nil)
     }
 
