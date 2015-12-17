@@ -21,7 +21,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 
     @IBOutlet weak var locationTableView: UITableView!
-    var arrayOfLocations = [Location]()
+    var arrayOfLocations : [Location] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +37,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         locationTableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     func currentDate() -> String{
         let date = NSDate();
@@ -94,6 +90,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     func addLocationToList(locationToAdd: Location){
         arrayOfLocations.append(locationToAdd)
+        arrayOfLocations.sortInPlace {(loc1:Location, loc2:Location) -> Bool in
+            loc1.distanceTo < loc2.distanceTo}
         [locationTableView.reloadData()]
     }
 
