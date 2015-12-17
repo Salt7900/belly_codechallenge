@@ -45,13 +45,13 @@ class DetailViewController: UIViewController {
     }
     
     func setupMap(){
-        var location = CLLocationCoordinate2D(latitude: locationLat!, longitude: locationLong!)
-        var span = MKCoordinateSpanMake(0.25, 0.25)
-        var region = MKCoordinateRegion(center: location, span: span)
+        let location = CLLocationCoordinate2D(latitude: locationLat!, longitude: locationLong!)
+        let span = MKCoordinateSpanMake(0.25, 0.25)
+        let region = MKCoordinateRegion(center: location, span: span)
         
         mapView.setRegion(region, animated: true)
         
-        var annotation = MKPointAnnotation()
+        let annotation = MKPointAnnotation()
         annotation.coordinate = location
         annotation.title = nameOfLocation
         annotation.subtitle = "\(String(typeOfLocation)) m away"

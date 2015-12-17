@@ -35,7 +35,7 @@ class LocationCell: UITableViewCell {
             }        
         }
         
-        self.locationDistance.text = String(distanceTo)
+        self.locationDistance.text = String("\(distanceTo) meters away")
         self.locationName.text = nameOfLocation
         self.locationCategory.text = categoryOfLocation
     }
