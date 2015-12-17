@@ -28,6 +28,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
     
+        print("Hello from viewDidLoad")
         setUpLocations()
         
     }
@@ -54,9 +55,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //        arrayOfLocations.append(myLocation)
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
-        var counter = 0
     
-        sleep(8)
+        print(userLong)
+        print(userLat)
         Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
             switch response.result {
             case .Success:
@@ -67,11 +68,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         let locationName = locationsArray[i]["name"].stringValue
                         let locationLat = locationsArray[i]["location"]["lat"].stringValue
                         let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                        let locationDistance = locationsArray[i]["location"]["distance"].stringValue
                         let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
                         let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
                         let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
-                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrl: "\(locationImageUrlPrefix)\(locationImageUrlSuffix)")
-                        self.arrayOfLocations.append(newLocation)
+                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
+                        self.addLocationToList(newLocation)
                         i++
                     }
 
@@ -82,21 +84,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
             }
         }
-        print(self.arrayOfLocations)
+        print(arrayOfLocations)
+        [locationTableView.reloadData()]
+    }
+    
+    func addLocationToList(locationToAdd: Location){
+        arrayOfLocations.append(locationToAdd)
         [locationTableView.reloadData()]
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return self.arrayOfLocations.count
+        return arrayOfLocations.count
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
 
-        let locationToDipslay = self.arrayOfLocations[indexPath.row]
-        cell.setCell(locationToDipslay.name, imageOfLocation: locationToDipslay.imageUrl, categoryOfLocation: locationToDipslay.category)
+        let locationToDipslay = arrayOfLocations[indexPath.row]
+        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceTo)
         
         return cell
     }
@@ -105,6 +112,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let location = self.arrayOfLocations[indexPath.row]
         
         var detailedViewController: DetailViewController = self.storyboard?.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
+        
+        detailedViewController.nameOfLocation = location.name
+        detailedViewController.distanceToLocation = location.distanceTo
+        detailedViewController.typeOfLocation = location.category
+        detailedViewController.locationLong = location.long
+        detailedViewController.locationLat = location.lat
         
         self.presentViewController(detailedViewController, animated: true, completion: nil)
     }

@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "belly_cc/Location.swift"
-            timestampString = "471909965.922208"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "init(name:lat:long:category:imageUrl:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "belly_cc/LocationCell.swift"
-            timestampString = "471988066.687052"
+            timestampString = "472024894.477566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "setCell(_:imageOfLocation:categoryOfLocation:)"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "setCell(_:imageOfLocationPre:imageOfLocationSuf:categoryOfLocation:distanceTo:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

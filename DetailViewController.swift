@@ -7,12 +7,31 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var locationName: UILabel!
+    @IBOutlet weak var locationDistance: UILabel!
+    @IBOutlet weak var locationType: UILabel!
+    
+    var nameOfLocation: String?
+    var distanceToLocation: Int?
+    var typeOfLocation: String?
+    var locationLat: Double?
+    var locationLong: Double?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        locationName.text = nameOfLocation
+        locationDistance.text = String(distanceToLocation!)
+        locationType.text = typeOfLocation!
+        
+        setupMap()
+    
         // Do any additional setup after loading the view.
     }
 
@@ -25,15 +44,20 @@ class DetailViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func setupMap(){
+        var location = CLLocationCoordinate2D(latitude: locationLat!, longitude: locationLong!)
+        var span = MKCoordinateSpanMake(0.25, 0.25)
+        var region = MKCoordinateRegion(center: location, span: span)
+        
+        mapView.setRegion(region, animated: true)
+        
+        var annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = nameOfLocation
+        annotation.subtitle = "\(String(typeOfLocation)) m away"
+        
+        mapView.addAnnotation(annotation)
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
 
 }
