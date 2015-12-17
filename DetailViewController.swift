@@ -29,6 +29,8 @@ class DetailViewController: UIViewController {
         locationName.text = nameOfLocation
         locationDistance.text = String(distanceToLocation)
         locationType.text = String(typeOfLocation)
+        
+        setupMap()
     
         // Do any additional setup after loading the view.
     }
@@ -42,6 +44,20 @@ class DetailViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func setupMap(){
+        var location = CLLocationCoordinate2D(latitude: locationLat!, longitude: locationLong!)
+        var span = MKCoordinateSpanMake(0.5, 0.5)
+        var region = MKCoordinateRegion(center: location, span: span)
+        
+        mapView.setRegion(region, animated: true)
+        
+        var annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = nameOfLocation
+        annotation.subtitle = "\(String(typeOfLocation)) m away"
+        
+        mapView.addAnnotation(annotation)
 
+    }
 
 }
