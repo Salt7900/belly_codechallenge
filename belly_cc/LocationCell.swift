@@ -27,8 +27,9 @@ class LocationCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setCell(nameOfLocation: String, imageOfLocation: String, categoryOfLocation: String){
-        if let url = NSURL(string: imageOfLocation) {
+    func setCell(nameOfLocation: String, imageOfLocationPre: String, imageOfLocationSuf: String,categoryOfLocation: String){
+        let totalImageUrl = "\(imageOfLocationPre)bg_88\(imageOfLocationSuf)"
+        if let url = NSURL(string: totalImageUrl) {
             if let data = NSData(contentsOfURL: url) {
                 locationPicture.image = UIImage(data: data)
             }        
