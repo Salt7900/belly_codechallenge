@@ -28,11 +28,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        
+
         setUpLocations()
 
     }
-    
+
 
 
     func currentDate() -> String{
@@ -46,43 +46,49 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setUpLocations(){
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
+        var json = JSON("")
 
-        if userLat != nil{
-          Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
-              switch response.result {
-              case .Success:
-                  if let value = response.result.value {
-                      let json = JSON(value)
-                      let jsonAsString = String(json)
-                      self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
-                      let locationsArray = json["response"]["venues"].arrayValue
-                      for var i = 0; i < locationsArray.count;{
-                          let locationName = locationsArray[i]["name"].stringValue
-                          let locationLat = locationsArray[i]["location"]["lat"].stringValue
-                          let locationLong = locationsArray[i]["location"]["lng"].stringValue
-                          let locationDistance = locationsArray[i]["location"]["distance"].stringValue
-                          let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
-                          let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
-                          let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
-                          let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
-                          self.addLocationToList(newLocation)
-                          i++
-                      }
+        if connectedToNetwork(){
+            if userLat != nil{
+                Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
+                    switch response.result {
+                    case .Success:
+                        if let value = response.result.value {
+                            json = JSON(value)
+                            let jsonAsString = String(json)
+                            self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
+                            let locationsArray = json["response"]["venues"].arrayValue
+                            for var i = 0; i < locationsArray.count;{
+                                let locationName = locationsArray[i]["name"].stringValue
+                                let locationLat = locationsArray[i]["location"]["lat"].stringValue
+                                let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                                let locationDistance = locationsArray[i]["location"]["distance"].stringValue
+                                let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
+                                let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
+                                let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
+                                let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
+                                self.addLocationToList(newLocation)
+                                i++
+                            }
+                        }
 
+                    case .Failure:
+                        print("failure")
 
-                  }
-              case .Failure:
-                  print("failure")
+                    }
+                }
+            }else{
+                sleep(4)
+                print("Hello from else")
+                setUpLocations()
+            }
 
-              }
-          }
-          print(arrayOfLocations)
-          [locationTableView.reloadData()]
         }else{
-            sleep(4)
-            print("Hello from else")
-            setUpLocations()
+          let jsonToParse = userDefaults.objectForKey("cachedJson")!
+          json = JSON(jsonToParse)
         }
+
+
     }
 
     func addLocationToList(locationToAdd: Location){
