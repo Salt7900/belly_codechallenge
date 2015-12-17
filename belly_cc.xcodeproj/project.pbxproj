@@ -12,6 +12,7 @@
 		9E4DB8B01C21FA11001100B9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4DB8AF1C21FA11001100B9 /* DetailViewController.swift */; };
 		9E4DB8B21C220175001100B9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4DB8B11C220175001100B9 /* CoreLocation.framework */; };
 		9E4DB8B81C220FC4001100B9 /* FSClientDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4DB8B71C220FC4001100B9 /* FSClientDetails.swift */; };
+		9E5B8DF51C23688100E8F748 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5B8DF41C23688000E8F748 /* Reachability.swift */; };
 		9EE9C47D1C20BCBE00DC0A29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9C47C1C20BCBE00DC0A29 /* AppDelegate.swift */; };
 		9EE9C47F1C20BCBE00DC0A29 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE9C47E1C20BCBE00DC0A29 /* ViewController.swift */; };
 		9EE9C4821C20BCBE00DC0A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EE9C4801C20BCBE00DC0A29 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		9E4DB8AF1C21FA11001100B9 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = ../DetailViewController.swift; sourceTree = "<group>"; };
 		9E4DB8B11C220175001100B9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9E4DB8B71C220FC4001100B9 /* FSClientDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSClientDetails.swift; sourceTree = "<group>"; };
+		9E5B8DF41C23688000E8F748 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9EE9C4791C20BCBE00DC0A29 /* belly_cc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = belly_cc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EE9C47C1C20BCBE00DC0A29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9EE9C47E1C20BCBE00DC0A29 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				9E4DB8AF1C21FA11001100B9 /* DetailViewController.swift */,
 				9EE9C47C1C20BCBE00DC0A29 /* AppDelegate.swift */,
 				9EE9C47E1C20BCBE00DC0A29 /* ViewController.swift */,
+				9E5B8DF41C23688000E8F748 /* Reachability.swift */,
 				9EE9C4801C20BCBE00DC0A29 /* Main.storyboard */,
 				9EE9C4831C20BCBE00DC0A29 /* Assets.xcassets */,
 				9EE9C4851C20BCBE00DC0A29 /* LaunchScreen.storyboard */,
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5B8DF51C23688100E8F748 /* Reachability.swift in Sources */,
 				9E4DB8AC1C20C222001100B9 /* LocationCell.swift in Sources */,
 				9EE9C47F1C20BCBE00DC0A29 /* ViewController.swift in Sources */,
 				9E4DB8B81C220FC4001100B9 /* FSClientDetails.swift in Sources */,

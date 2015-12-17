@@ -34,9 +34,6 @@ class DetailViewController: UIViewController {
     
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -51,9 +48,7 @@ class DetailViewController: UIViewController {
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
-        annotation.title = nameOfLocation
-        annotation.subtitle = "\(String(typeOfLocation)) m away"
-        
+       
         mapView.addAnnotation(annotation)
 
     }
