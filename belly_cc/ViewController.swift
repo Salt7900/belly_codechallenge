@@ -45,6 +45,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let userLong = locationManager.location?.coordinate.longitude
 
         if connectedToNetwork(){
+            print("Hello from network")
             if userLat != nil{
                 Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/search?ll=\(userLat!),\(userLong!)&client_id=\(clientID)&client_secret=\(clientSecret)&v=\(currentDate())").responseJSON { response in
                     switch response.result {
@@ -81,6 +82,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         }else{
           let jsonToParse = userDefaults.objectForKey("cachedJson")!
+            print("Cashed")
           let json = JSON(jsonToParse)
             let jsonAsString = String(json)
             self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
