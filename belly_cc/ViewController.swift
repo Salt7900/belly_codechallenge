@@ -69,12 +69,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         let locationName = locationsArray[i]["name"].stringValue
                         let locationLat = locationsArray[i]["location"]["lat"].stringValue
                         let locationLong = locationsArray[i]["location"]["lng"].stringValue
+                        let locationDistance = locationsArray[i]["location"]["distance"].stringValue
                         let locationCat = locationsArray[i]["categories"][0]["name"].stringValue
                         let locationImageUrlPrefix = locationsArray[i]["categories"][0]["icon"]["prefix"].stringValue
                         let locationImageUrlSuffix = locationsArray[i]["categories"][0]["icon"]["suffix"].stringValue
-                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix)
+                        let newLocation = Location(name: locationName, lat: Double(locationLat)!, long: Double(locationLong)!, category: locationCat, imageUrlPrefix: locationImageUrlPrefix, imageUrlSuffix: locationImageUrlSuffix, distanceTo: Int(locationDistance)! )
                         self.addLocationToList(newLocation)
-                        print("Hello from the JSON")
                         i++
                     }
 
@@ -105,7 +105,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell: LocationCell = locationTableView.dequeueReusableCellWithIdentifier("locationCell") as! LocationCell
 
         let locationToDipslay = arrayOfLocations[indexPath.row]
-        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category)
+        cell.setCell(locationToDipslay.name, imageOfLocationPre: locationToDipslay.imageUrlPrefix, imageOfLocationSuf: locationToDipslay.imageUrlSuffix, categoryOfLocation: locationToDipslay.category, distanceTo: locationToDipslay.distanceTo)
         
         return cell
     }
