@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let clientSecret = FSClientDetails().clientSecret()
 
     var locationManager = CLLocationManager()
+    let userDefaults = NSUserDefaults.standardUserDefaults()
 
 
     @IBOutlet weak var locationTableView: UITableView!
@@ -28,16 +29,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         
-        setUpCache()
         setUpLocations()
 
     }
     
-    func setUpCache(){
-        let memoryCapacity = 500 * 1024 * 1024
-        let diskCapacity = 500 * 1024 * 1024
-        let cache = NSURLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "shared_cache")
-    }
 
 
     func currentDate() -> String{
@@ -49,8 +44,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 
     func setUpLocations(){
-//        let myLocation = Location(name: "Place", lat: 22, long: 43, category: "Food", imageUrl: "http://nuclearpixel.com/content/icons/2010-02-09_stellar_icons_from_space_from_2005/earth_128.png")
-//        arrayOfLocations.append(myLocation)
         let userLat = locationManager.location?.coordinate.latitude
         let userLong = locationManager.location?.coordinate.longitude
 
@@ -60,6 +53,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
               case .Success:
                   if let value = response.result.value {
                       let json = JSON(value)
+                      let jsonAsString = String(json)
+                      self.userDefaults.setValue(jsonAsString, forKey: "cachedJson")
                       let locationsArray = json["response"]["venues"].arrayValue
                       for var i = 0; i < locationsArray.count;{
                           let locationName = locationsArray[i]["name"].stringValue
